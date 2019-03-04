@@ -1,0 +1,271 @@
+<!doctype html>
+<html>
+
+<head>
+    表头固定
+    <style>
+        /*固定表头*/
+        #contenter table>thead>tr>th,
+        #contenter table>tbody>tr>td {
+            min-width: 20px;
+        }
+
+        #contenter th {
+            background-color: #4ca9f7;
+            color: white;
+        }
+
+        #contenter td {
+            height: 30px;
+            text-align: center;
+        }
+
+        #contenter thead td {
+            height: 35px;
+            text-align: center;
+        }
+
+        #contenter {
+            position: relative;
+            width: 1500px;
+            height: 500px;
+            margin: auto;
+            background-color: white;
+            border: 1px solid black;
+            overflow: auto;
+        }
+
+        #grid1,
+        #grid2 {
+            table-layout: fixed;
+            /*width: 5050px;*/
+            border: 1px solid gray;
+        }
+
+        #theadDiv {
+            position: absolute;
+            left: 0;
+            right: 0;
+            overflow: hidden;
+            /*这里hidden是用于隐藏滚动条 */
+        }
+
+        #tbodyDiv {
+            position: absolute;
+            top: 40px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            overflow-x: auto;
+            overflow-y: scroll;
+        }
+
+        .tdA {
+            text-align: right;
+            width: 20%;
+        }
+
+        .tdB {
+            width: 30%;
+            text-align: center;
+        }
+
+        .tdC {
+            width: 50%;
+            text-align: center;
+        }
+    </style>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        /*---------计算滚动条的宽度--------*/
+        function getBrowserScrollSize() {
+
+            var css = {
+                "border": "none",
+                "height": "200px",
+                "margin": "0",
+                "padding": "0",
+                "width": "200px"
+            };
+
+            var inner = $("<div>").css($.extend({}, css));
+            var outer = $("<div>").css($.extend({
+                "left": "-1000px",
+                "overflow": "scroll",
+                "position": "absolute",
+                "top": "-1000px"
+            }, css)).append(inner).appendTo("body")
+                .scrollLeft(1000)
+                .scrollTop(1000);
+
+            var scrollSize = {
+                "height": (outer.offset().top - inner.offset().top) || 0,
+                "width": (outer.offset().left - inner.offset().left) || 0
+            };
+
+            outer.remove();
+            return scrollSize;
+        }
+        /*--------------------------------------*/
+        function table() {
+            $("#grid1").css('width', '100%');
+            $("#grid2").css('width', '100%');
+            var scrollWidth = getBrowserScrollSize().width;
+            $("#contenter").height(500);
+            //保持表头和表体一致滚动
+            $('#tbodyDiv').on('scroll', function () {
+                $("#theadDiv").scrollLeft($('#tbodyDiv').scrollLeft());
+            });
+            var lastColWidth = $("#grid1 td:last").width();
+            //表头最后一列添加滚动条的宽度
+            $("#grid1 td:last").width(lastColWidth + scrollWidth - 5);
+        }
+        $(function () {
+            table();
+        });
+    </script>
+</head>
+
+<body>
+    <div style="width:100%;overflow:auto;">
+        <div id="contenter">
+            <div id="theadDiv">
+                <table id="grid1" class="fixedTable" border="1" cellpadding="0" cellspacing="0">
+                    <thead>
+                        <tr class="firstTr">
+                            <td class="tdA">
+                                第一列
+                            </td>
+                            <td class="tdC">
+                                第二列
+                            </td>
+                            <td class="tdC">
+                                第三列
+                            </td>
+                            <td class="tdC">
+                                第四列
+                            </td>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div id="tbodyDiv">
+                <table id="grid2" border="1" cellpadding="0" cellspacing="0">
+                    <tbody>
+                        <tr>
+                            <td class="tdA">1</td>
+                            <td class="tdC">2</td>
+                            <td class="tdC">3</td>
+                            <td class="tdC">3</td>
+                        </tr>
+                        <tr>
+                            <td class="tdA">2</td>
+                            <td class="tdC">2</td>
+                            <td class="tdC">3</td>
+                            <td class="tdC">3</td>
+                        </tr>
+                        <tr>
+                            <td class="tdA">3</td>
+                            <td class="tdC">2</td>
+                            <td class="tdC">3</td>
+                            <td class="tdC">3</td>
+                        </tr>
+                        <tr>
+                            <td class="tdA">4</td>
+                            <td class="tdC">2</td>
+                            <td class="tdC">3</td>
+                            <td class="tdC">3</td>
+                        </tr>
+                        <tr>
+                            <td class="tdA">5</td>
+                            <td class="tdC">2</td>
+                            <td class="tdC">3</td>
+                            <td class="tdC">3</td>
+                        </tr>
+                        <tr>
+                            <td class="tdA">6</td>
+                            <td class="tdC">2</td>
+                            <td class="tdC">3</td>
+                            <td class="tdC">3</td>
+                        </tr>
+                        <tr>
+                            <td class="tdA">7</td>
+                            <td class="tdC">2</td>
+                            <td class="tdC">3</td>
+                            <td class="tdC">3</td>
+                        </tr>
+                        <tr>
+                            <td class="tdA">8</td>
+                            <td class="tdC">2</td>
+                            <td class="tdC">3</td>
+                            <td class="tdC">3</td>
+                        </tr>
+                        <tr>
+                            <td class="tdA">9</td>
+                            <td class="tdC">2</td>
+                            <td class="tdC">3</td>
+                            <td class="tdC">3</td>
+                        </tr>
+                        <tr>
+                            <td class="tdA">1</td>
+                            <td class="tdC">2</td>
+                            <td class="tdC">3</td>
+                            <td class="tdC">3</td>
+                        </tr>
+                        <tr>
+                            <td class="tdA">2</td>
+                            <td class="tdC">2</td>
+                            <td class="tdC">3</td>
+                            <td class="tdC">3</td>
+                        </tr>
+                        <tr>
+                            <td class="tdA">3</td>
+                            <td class="tdC">2</td>
+                            <td class="tdC">3</td>
+                            <td class="tdC">3</td>
+                        </tr>
+                        <tr>
+                            <td class="tdA">4</td>
+                            <td class="tdC">2</td>
+                            <td class="tdC">3</td>
+                            <td class="tdC">3</td>
+                        </tr>
+                        <tr>
+                            <td class="tdA">5</td>
+                            <td class="tdC">2</td>
+                            <td class="tdC">3</td>
+                            <td class="tdC">3</td>
+                        </tr>
+                        <tr>
+                            <td class="tdA">6</td>
+                            <td class="tdC">2</td>
+                            <td class="tdC">3</td>
+                            <td class="tdC">3</td>
+                        </tr>
+                        <tr>
+                            <td class="tdA">7</td>
+                            <td class="tdC">2</td>
+                            <td class="tdC">3</td>
+                            <td class="tdC">3</td>
+                        </tr>
+                        <tr>
+                            <td class="tdA">8</td>
+                            <td class="tdC">2</td>
+                            <td class="tdC">3</td>
+                            <td class="tdC">3</td>
+                        </tr>
+                        <tr>
+                            <td class="tdA">9</td>
+                            <td class="tdC">2</td>
+                            <td class="tdC">3</td>
+                            <td class="tdC">3</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
